@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Tweet Harassment Labeler - FAQs</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" 
+			type="image/png" 
+			href="/img/favicon.png">
+	<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+	<div id="content">
+		<div id="intro">
+			<h1>FAQs</h1>
+			<ul>
+				<li>
+					<h2>What is this?</h2>
+					<p>
+						This is a tool that you can use to help researchers study harrassment on Twitter. To let computers learn what consitutes harassment and what doesn't, researchers need lots of examples of harassment, and of normal behaviour. We need your help labeling the examples. 
+					</p>
+				</li>
+				<li>
+					<h2>How can I help?</h2>
+					<p>
+						To help out, just rate the tweet below based on how harassing it is. First, read the tweet, then use the buttons below the tweet to submit your evaulation. Thanks to you, we will be better able to spot harassment, and stop it.
+					</p>
+				</li>
+				<li>
+					<h2>Where is the data? Can I have the data?</h2>
+					<p>
+						Once the first thousand tweets have been rated by at least 5 people, I'll add a download link for a daily snapshot of the data. The data will be newline delimited JSON objects with the tweet id, the average harassment rating, and the number of people that have rated the tweet
+					</p>
+				</li>
+				<li>
+					<h2>Are PRs welcomed? AKA How can I help?</h2>
+					<p>
+						Yes. The github is here: <a href="https://github.com/hhamilto/twitter_harassment_labeling_service">https://github.com/hhamilto/twitter_harassment_labeling_service</a>
+					</p>
+					<p>
+						Open an issue if you see one, or feel free to just submit a PR. I reserve the right to edit all PRs for clarity and brevity, but in all seriousness, this is a pretty basic project that could be a lot better.
+					</p>
+				</li>
+				<li>
+					<h2>What prevents spam/data poisoning?</h2>
+					<p>
+						Nothing right now. Please see "Are PRs welcomed?".
+					</p>
+				</li>
+				<li>
+					<h2>Does this track me?</h2>
+					<p>
+						Not yet. In the future, I may add cookies so that you aren't presented the same tweet to rate twice.
+					</p>
+				</li>
+			<ul>
+
+		</div>
+		<div id="rating-tool">
+			<div id="tweet-container">
+			</div>
+			<form id="rating-input-container">
+			</form>
+		</div>
+	</div>
+</body>

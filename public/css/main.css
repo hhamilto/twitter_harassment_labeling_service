@@ -1,0 +1,87 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+/********************************
+ DOCUMENT STYLES
+********************************/
+* {
+	font-family: sans-serif;
+}
+
+#content {
+	max-width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	margin-bottom: 10px;
+}
+
+p {
+	font-size: 16px;
+	line-height: 20px;
+	margin: 5px 0;
+}
+
+hr {
+	margin: 30px 0;
+}
+
+#intro {
+	padding: 10px;
+}
+/********************************
+ UI STYLES - BUTTONS, ETC
+********************************/
+
+#tweet-container > iframe {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+#rating-input-container {
+	display: flex;
+	align-items: center
+}
+
+.scale-legend {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: column;
+}
+
+#scale-input {
+	display: flex;
+	align-items: stretch;
+	flex-grow: 1;
+}
+
+#scale-input > button {
+	flex-grow: 1;
+	height: 50px;
+	border: none;
+	background-color: white;
+	border: 1px solid black;
+	border-right: none
+}
+
+#scale-input > button:hover {
+	background-color: #DDD;
+}
+
+#scale-input > button:first-child {
+	border-bottom-left-radius: 25px;
+	border-top-left-radius: 25px;
+}
+
+#scale-input > button:last-child {
+	border-bottom-right-radius: 25px;
+	border-top-right-radius: 25px;
+	border-right: 1px solid black;
+}
