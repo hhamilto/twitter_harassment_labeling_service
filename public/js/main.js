@@ -1,4 +1,5 @@
 
+
 // better than 500 lines of polyfill to get the actual fetch that is true to WHATWG spec
 var fetchJsonResource = function(options){
 	if(typeof options == 'string') 
@@ -53,26 +54,27 @@ var fetchJsonResource = function(options){
 	}
 	document.addEventListener('DOMContentLoaded', function(){
 		fetchTweetIdForRating().then(populateViewerWithTweet)
-	})
 
-	// I read a blog post once about not using [].forEach.call, which really made me want to use it more.
-	![].forEach.call(document.querySelectorAll('#scale-input button'), function(element){
-		element.addEventListener('click', function(e){
-			e.preventDefault()
-			if( !e.target.dataset.rating){
-				alert('Unable to determine rating. This is broken. File an issue, then go outside and take a break from the computer.')
-				return
-			}
-			disableInput()
-			fetchJsonResource({
-				method: "PUT",
-				url: '/api/tweets/'+document.getElementById('tweet-container').dataset.displayedTweetId+'/ratings',
-				body: JSON.stringify({rating:e.target.dataset.rating}),
-				headers: [['Content-Type','application/json']]
+		// I read a blog post once about not using [].forEach.call, which really made me want to use it more.
+		![].forEach.call(document.querySelectorAll('#scale-input button'), function(element){
+			element.addEventListener('click', function(e){
+				e.preventDefault()
+				if( !e.target.dataset.rating){
+					alert('Unable to determine rating. This is broken. File an issue, then go outside and take a break from the computer.')
+					return
+				}
+				disableInput()
+				fetchJsonResource({
+					method: "PUT",
+					url: '/api/tweets/'+document.getElementById('tweet-container').dataset.displayedTweetId+'/ratings',
+					body: JSON.stringify({rating:e.target.dataset.rating}),
+					headers: [['Content-Type','application/json']]
+				})
+				.then(fetchTweetIdForRating)
+				.then(populateViewerWithTweet)
+				.then(enableInput)
 			})
-			.then(fetchTweetIdForRating)
-			.then(populateViewerWithTweet)
-			.then(enableInput)
 		})
 	})
+
 }()

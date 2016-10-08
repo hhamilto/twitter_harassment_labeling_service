@@ -11,11 +11,6 @@
 	font-family: sans-serif;
 }
 
-#content {
-	max-width: 1000px;
-	margin-left: auto;
-	margin-right: auto;
-}
 
 h1,h2,h3,h4,h5,h6 {
 	margin-bottom: 10px;
@@ -31,44 +26,109 @@ hr {
 	margin: 30px 0;
 }
 
-#intro {
-	padding: 10px;
-}
 /********************************
  UI STYLES - BUTTONS, ETC
 ********************************/
+
+/********************************
+ APPLICATION CUSTOM STYLES
+********************************/
+
+#content {
+	max-width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#intro {
+	padding: 10px;
+}
 
 #tweet-container > iframe {
 	margin-left: auto;
 	margin-right: auto;
 }
 
-
 #rating-input-container {
-	display: flex;
-	align-items: center
+	position: relative;
 }
 
-.scale-legend {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	flex-direction: column;
+.scale-legend-icon {
+	width: 10%;
+	padding-top: 4vw;
+}
+
+
+@media (min-width: 500px) {
+	.scale-legend-icon {
+		padding-top: 0vw;
+	}
+}
+
+.scale-legend-icon img {
+	width:100%;
+}
+
+.scale-legend-icon:nth-child(1) {
+	float: left;
+}
+
+.scale-legend-icon:nth-child(2){
+	float: right;
+}
+
+
+#scale-legend-labels {
+	clear: both;
+}
+
+#scale-legend-labels > p {
+	width: 50%;
+	font-size: 3vw;
+	line-height: 3vw;
+	float: left;
+}
+
+@media (min-width: 1000px) {
+	#scale-legend-labels > p {
+		font-size: 31px;
+		line-height: 31px;
+	}
+}
+
+#scale-legend-labels > p:first-child{
+	text-align: left;
+}
+
+#scale-legend-labels > p:last-child {
+	text-align: right;
 }
 
 #scale-input {
-	display: flex;
-	align-items: stretch;
-	flex-grow: 1;
+	width: 80%;
+	margin: 0 10%;
+	padding: 4% 20px;
 }
 
 #scale-input > button {
-	flex-grow: 1;
 	height: 50px;
 	border: none;
 	background-color: white;
 	border: 1px solid black;
-	border-right: none
+	border-right: none;
+	width: 20%;
+	display: block;
+	float: left;
+	color: black;
+	font-size: 26px;
+	line-height: 26px;
+}
+
+
+@media (min-width: 1000px) {
+	#scale-legend-labels > p {
+		
+	}
 }
 
 #scale-input > button:hover {
@@ -85,3 +145,4 @@ hr {
 	border-top-right-radius: 25px;
 	border-right: 1px solid black;
 }
+
