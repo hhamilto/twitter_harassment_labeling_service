@@ -19,7 +19,7 @@ var fetchJsonResource = function(options){
 	console.log(request)
 	request.open(options.method, options.url)
 	if(options.headers)
-		_.forEach(options.headers,_.spread(request.setRequestHeader))
+		_.forEach(_.spread(request.setRequestHeader.bind(request)), options.headers)
 	request.send(options.body)
 	return requestPromise
 }
@@ -46,10 +46,22 @@ var fetchJsonResource = function(options){
 		tweetContainerEl.innerHTML = ''
 
 		return twttr.widgets.createTweet(tweetId, tweetContainerEl)
-		.then(function(val){
-			tweetContainerEl.dataset.displayedTweetId = tweetId
-			window.scrollTo(0,document.body.scrollHeight)
-			return val //not sure what val is...
+		.then(function(el){
+			if(el){
+				//tweet successfully loaded
+				tweetContainerEl.dataset.displayedTweetId = tweetId
+				window.scrollTo(0,document.body.scrollHeight)
+				return el
+			}else{
+				return fetchJsonResource({
+					method: "PUT",
+					url: '/api/tweets/'+tweetId+'/ratings',
+					body: JSON.stringify({skip:true}),
+					headers: [['Content-Type','application/json']]
+				})
+				.then(fetchTweetIdForRating)
+				.then(populateViewerWithTweet)
+			}
 		})
 	}
 	document.addEventListener('DOMContentLoaded', function(){
@@ -67,7 +79,7 @@ var fetchJsonResource = function(options){
 				fetchJsonResource({
 					method: "PUT",
 					url: '/api/tweets/'+document.getElementById('tweet-container').dataset.displayedTweetId+'/ratings',
-					body: JSON.stringify({rating:e.target.dataset.rating}),
+					body: JSON.stringify({rating:parseInt(e.target.dataset.rating)}),
 					headers: [['Content-Type','application/json']]
 				})
 				.then(fetchTweetIdForRating)

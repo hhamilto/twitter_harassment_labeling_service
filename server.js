@@ -17,6 +17,7 @@ var tweetData; fs.readFileAsync(__dirname+'/tweet_data/'+dataFileNames[dataFileN
 
 
 const app = koa()
+
 app.use(bodyParser())
 app.use(require('koa-static')(__dirname+'/public'))
 app.use(router.get('/api/lol', function *(){
@@ -30,14 +31,24 @@ app.use(router.get('/api/tweets', function *(){
 
 var submission_count = 0
 app.use(router.put('/api/tweets/:tweetId/ratings', function *(id_str){
-	const tweet = _.find({id_str}, tweetData)
-	tweet.totalRatings++
-	tweet.averageRating = tweet.averageRating * (tweet.totalRatings-1/tweet.totalRatings) + this.request.body.rating * (1/tweet.totalRatings)
-	tweetData = _.sortBy('totalRatings', tweetData)
-
-	if(! submission_count++%100){
+	if(this.request.body.skip){
+		tweetData = _.reject({id_str}, tweetData)
+	} else {
+		if ( typeof this.request.body.rating != 'number'
+		        || this.request.body.rating > 5
+		        || this.request.body.rating < 1 ) {
+			this.status = 400
+			this.body = JSON.stringify({error:true, message: "rating must be a number between 1 and 5"})
+			return
+		}
+		const tweet = _.find({id_str}, tweetData)
+		tweet.totalRatings++
+		tweet.averageRating = tweet.averageRating * ((tweet.totalRatings-1)/tweet.totalRatings) + this.request.body.rating * (1/tweet.totalRatings)
+		tweetData = _.sortBy('totalRatings', tweetData)
+	}
+	if(submission_count++%100 == 0 ){
 		//dump a new data file every 100 ratings we get.
-		fs.writeFile(Date.now()+'.tweets.dat', JSON.stringify(tweetData))
+		fs.writeFile(__dirname+'/tweet_data/'+Date.now()+'.tweets.dat', _.map(JSON.stringify,tweetData).join('\n'))
 	}
 	this.body = '{"success":true}'
 }))
