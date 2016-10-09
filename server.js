@@ -2,6 +2,7 @@ const _ = require('lodash/fp')
 const koa = require('koa')
 const router = require('koa-route')
 const bodyParser = require('koa-bodyparser')
+const compress = require('koa-compress')
 const Promise = require('bluebird')
 const fs = Promise.promisifyAll(require('fs'))
 
@@ -19,6 +20,7 @@ var tweetData; fs.readFileAsync(__dirname+'/tweet_data/'+dataFileNames[dataFileN
 const app = koa()
 
 app.use(bodyParser())
+app.use(compress())
 app.use(require('koa-static')(__dirname+'/public'))
 app.use(router.get('/api/lol', function *(){
 	this.body = "it works."
