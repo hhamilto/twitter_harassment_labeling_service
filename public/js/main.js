@@ -41,6 +41,18 @@ var fetchJsonResource = function(options){
 			return tweets[0].id_str
 		})
 	}
+
+	var failedToLoadTweet = function(failedTweetId){
+		return fetchJsonResource({
+			method: "PUT",
+			url: '/api/tweets/'+failedTweetId+'/ratings',
+			body: JSON.stringify({skip:true}),
+			headers: [['Content-Type','application/json']]
+		})
+		.then(fetchTweetIdForRating)
+		.then(populateViewerWithTweet)
+	}
+
 	var populateViewerWithTweet = function(tweetId){
 		var tweetContainerEl = document.getElementById('tweet-container')
 		tweetContainerEl.innerHTML = ''
@@ -53,17 +65,12 @@ var fetchJsonResource = function(options){
 				window.scrollTo(0,document.body.scrollHeight)
 				return el
 			}else{
-				return fetchJsonResource({
-					method: "PUT",
-					url: '/api/tweets/'+tweetId+'/ratings',
-					body: JSON.stringify({skip:true}),
-					headers: [['Content-Type','application/json']]
-				})
-				.then(fetchTweetIdForRating)
-				.then(populateViewerWithTweet)
+				return failedToLoadTweet(tweetId)
 			}
 		})
+		.catch(_.partial(failedToLoadTweet, tweetId))
 	}
+	
 	document.addEventListener('DOMContentLoaded', function(){
 		fetchTweetIdForRating().then(populateViewerWithTweet)
 
