@@ -14,6 +14,8 @@ var tweetData; fs.readFileAsync(__dirname+'/tweet_data/'+dataFileNames[dataFileN
 .then(_.sortBy('totalRatings'))
 .then(val=>tweetData=val) //hacky
 
+
+
 const app = koa()
 app.use(bodyParser())
 app.use(require('koa-static')(__dirname+'/public'))
@@ -26,11 +28,17 @@ app.use(router.get('/api/tweets', function *(){
 	this.body = JSON.stringify([tweetData[0]])
 }))
 
+var submission_count = 0
 app.use(router.put('/api/tweets/:tweetId/ratings', function *(id_str){
 	const tweet = _.find({id_str}, tweetData)
 	tweet.totalRatings++
 	tweet.averageRating = tweet.averageRating * (tweet.totalRatings-1/tweet.totalRatings) + this.request.body.rating * (1/tweet.totalRatings)
 	tweetData = _.sortBy('totalRatings', tweetData)
+
+	if(! submission_count++%100){
+		//dump a new data file every 100 ratings we get.
+		fs.writeFile(Date.now()+'.tweets.dat', JSON.stringify(tweetData))
+	}
 	this.body = '{"success":true}'
 }))
 
