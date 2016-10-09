@@ -6,7 +6,7 @@ const Promise = require('bluebird')
 const fs = Promise.promisifyAll(require('fs'))
 
 const dataFileNames = fs.readdirSync('tweet_data').sort()
-var tweetData; fs.readFileAsync('tweet_data/'+dataFileNames[dataFileNames.length-1])
+var tweetData; fs.readFileAsync(__dirname+'/tweet_data/'+dataFileNames[dataFileNames.length-1])
 .then(contents=>(console.log('Last tweet data file read'), contents))
 .then(contents=> contents.toString().split('\n').slice(0,-1))
 .then(_.map(JSON.parse))
